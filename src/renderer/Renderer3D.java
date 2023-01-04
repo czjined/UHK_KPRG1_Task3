@@ -23,9 +23,9 @@ public class Renderer3D implements GPUrenderer {
     public Renderer3D(Raster raster) {
         this.raster = raster;
         lineRasterizer = new LineRasterizerGraphics(raster);
-        model = new Mat4Identity();
-        view = new Mat4Identity();
-        projection = new Mat4Identity();
+//        model = new Mat4Identity();
+//        view = new Mat4Identity();
+//        projection = new Mat4Identity();
     }
 
     @Override
@@ -63,6 +63,7 @@ public class Renderer3D implements GPUrenderer {
         Vec3D vecTransf1 = transformToWindow(vector1);
         Vec3D vecTransf2 = transformToWindow(vector2);
 
+        lineRasterizer.setColor(color);
         lineRasterizer.drawLine(
                 (int) Math.round(vecTransf1.getX()),
                 (int) Math.round(vecTransf1.getY()),
@@ -71,11 +72,11 @@ public class Renderer3D implements GPUrenderer {
 
     }
 
-    private Vec3D transformToWindow(Vec3D vec) {    // Slidy od str. 79
+    private Vec3D transformToWindow(Vec3D vec) {    // Slide str. 91
         return vec
                 .mul(new Vec3D(1,-1,1)) // Osu Y shora dolu prevratit
                 .add(new Vec3D(1,1,0))  // Posunout stred souradnic doleva nahoru
-                .mul(new Vec3D(raster.getWidth()/(float)2, raster.getHeight()/ (float)2,1)); //
+                .mul(new Vec3D(raster.getWidth()/(float)2, raster.getHeight()/ (float)2,1)); // Viewport
     }
 
 

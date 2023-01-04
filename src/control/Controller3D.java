@@ -1,6 +1,7 @@
 package control;
 
 import model3D.Cube;
+import model3D.Needle;
 import model3D.Scene;
 import rasterize.Raster;
 import renderer.GPUrenderer;
@@ -23,9 +24,9 @@ public class Controller3D implements Controller {
         initListeners(panel);
 
         camera = new Camera()
-                .withPosition(new Vec3D(1,-5,2))
-                .addAzimuth(Math.toRadians(90))
-                .addZenith(Math.toRadians(-15));
+                .withPosition(new Vec3D(30,30,0))
+                .addAzimuth(Math.toRadians(20))
+                .addZenith(Math.toRadians(0));
 
         projection = new Mat4PerspRH(
                 Math.PI/3,
@@ -33,8 +34,11 @@ public class Controller3D implements Controller {
                 0.1,50
         );
 
+
+
         mainScene = new Scene();
-        mainScene.getSolids().add(new Cube());
+        mainScene.getSolids().add(new Needle());
+        display();
     }
 
     private void display() {
@@ -46,8 +50,9 @@ public class Controller3D implements Controller {
 
 //        Vykresleni z pohledu X- osy
 //        gpuRenderer.setModel(new Mat4Identity());
+//        gpuRenderer.setView(new Mat4Identity());
 //        gpuRenderer.setProjection(projection);
-//        gpuRenderer.draw(axisScene);
+//        gpuRenderer.draw(mainScene);
     }
 
     @Override
