@@ -8,11 +8,11 @@ public class Needle extends Solid {
 
     public Needle() {
 
-        color = Color.GREEN.getRGB();
-        vertexBuffer.add(new Point3D(5,5,5));
-        vertexBuffer.add(new Point3D(-5,-5,5));
-        vertexBuffer.add(new Point3D(-5,5,-5));
-        vertexBuffer.add(new Point3D(5,-5,-5));
+        color = Color.BLUE.getRGB();
+        vertexBuffer.add(new Point3D(5, 5, 5));   // Index 0
+        vertexBuffer.add(new Point3D(-5, -5, 5)); // Index 1
+        vertexBuffer.add(new Point3D(-5, 5, -5)); // Index 2
+        vertexBuffer.add(new Point3D(5, -5, -5)); // Index 3
 
         indexBuffer.add(0);
         indexBuffer.add(1);

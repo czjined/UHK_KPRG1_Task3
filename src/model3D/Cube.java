@@ -8,10 +8,10 @@ public class Cube extends Solid {
 
     public Cube() {
         color = Color.GREEN.getRGB();
-        vertexBuffer.add(new Point3D(1,1,1));
-        vertexBuffer.add(new Point3D(-1,1,1));
-        vertexBuffer.add(new Point3D(-1,-1,1));
-        vertexBuffer.add(new Point3D(1,-1,1));
+        vertexBuffer.add(new Point3D(1, 1, 1));
+        vertexBuffer.add(new Point3D(-1, 1, 1));
+        vertexBuffer.add(new Point3D(-1, -1, 1));
+        vertexBuffer.add(new Point3D(1, -1, 1));
 
         vertexBuffer.add(new Point3D(1,1,-1));
         vertexBuffer.add(new Point3D(-1,1,-1));

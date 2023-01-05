@@ -7,7 +7,8 @@ public class Scene {
 
     private final List<Solid> solids;
 
-    public Scene() { this.solids = new ArrayList<>();
+    public Scene() {
+        this.solids = new ArrayList<>();
     }
 
     public Scene(List<Solid> solids) {

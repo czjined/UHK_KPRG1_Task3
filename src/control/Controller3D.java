@@ -13,30 +13,30 @@ public class Controller3D implements Controller {
 
     private GPUrenderer gpuRenderer;
     Raster raster;
-    private Mat4 model, view, projection;
+    private Mat4 projection;
     private Camera camera;
 
-    private Scene mainScene, axisScene;
+    private Scene mainScene;
 
     public Controller3D(Panel panel) {
         gpuRenderer = new Renderer3D(panel.getRaster());
         raster = panel.getRaster();
-        initListeners(panel);
+//        initListeners(panel);
 
         camera = new Camera()
-                .withPosition(new Vec3D(30,30,0))
-                .addAzimuth(Math.toRadians(20))
+                .withPosition(new Vec3D(0, -3, 0))
+                .addAzimuth(Math.toRadians(90))
                 .addZenith(Math.toRadians(0));
 
         projection = new Mat4PerspRH(
-                Math.PI/3,
+                Math.PI / 3,
                 panel.getRaster().getHeight() / panel.getRaster().getWidth(),
-                0.1,50
+                0.1, 50
         );
 
 
-
         mainScene = new Scene();
+        mainScene.getSolids().add(new Cube());
         mainScene.getSolids().add(new Needle());
         display();
     }

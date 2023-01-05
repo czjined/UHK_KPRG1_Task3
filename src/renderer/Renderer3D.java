@@ -23,19 +23,16 @@ public class Renderer3D implements GPUrenderer {
     public Renderer3D(Raster raster) {
         this.raster = raster;
         lineRasterizer = new LineRasterizerGraphics(raster);
-//        model = new Mat4Identity();
-//        view = new Mat4Identity();
-//        projection = new Mat4Identity();
     }
 
     @Override
     public void draw(Scene scene) {
-        for (Solid solid: scene.getSolids()) {
+        for (Solid solid : scene.getSolids()) {
             List<Point3D> vb = solid.getVertexBuffer();
             List<Integer> ib = solid.getIndexBuffer();
-            for (int i = 0; i < ib.size(); i+=2) {
+            for (int i = 0; i < ib.size(); i += 2) {
                 Point3D v1 = vb.get(ib.get(i));
-                Point3D v2 = vb.get(ib.get(i+1));
+                Point3D v2 = vb.get(ib.get(i + 1));
                 transformLine(v1, v2, solid.getColor());
             }
         }
@@ -46,12 +43,16 @@ public class Renderer3D implements GPUrenderer {
         p1 = p1.mul(model).mul(view).mul(projection);
         p2 = p2.mul(model).mul(view).mul(projection);
 
-        if (clip(p1)) {return;}
-        if (clip(p2)) {return;}
+        //  Oba vrcholy jsou videt na obrazovce a oba se vejdou do zobr. objemu:
+        if (clip(p1)) {
+            return;
+        }
+        if (clip(p2)) {
+            return;
+        }
 
-//        Oba vrcholy jsou videt na obrazovce a oba se vejdou do zobr. objemu:
 
-//        Provadim zpetnou dehomogenizaci vydelenim W
+        //  Provadim zpetnou dehomogenizaci vydelenim W
         Optional<Vec3D> dehomogP1 = p1.dehomog();
         Optional<Vec3D> dehomogP2 = p2.dehomog();
         if (dehomogP1.isEmpty() || dehomogP2.isEmpty()) return; // Pri W=0 jsem nemohl vydelit
@@ -74,23 +75,30 @@ public class Renderer3D implements GPUrenderer {
 
     private Vec3D transformToWindow(Vec3D vec) {    // Slide str. 91
         return vec
-                .mul(new Vec3D(1,-1,1)) // Osu Y shora dolu prevratit
-                .add(new Vec3D(1,1,0))  // Posunout stred souradnic doleva nahoru
-                .mul(new Vec3D(raster.getWidth()/(float)2, raster.getHeight()/ (float)2,1)); // Viewport
+                .mul(new Vec3D(1, -1, 1)) // Osu Y shora dolu prevratit
+                .add(new Vec3D(1, 1, 0))  // Posunout stred souradnic doleva nahoru
+                .mul(new Vec3D(raster.getWidth() / (float) 2, raster.getHeight() / (float) 2, 1)); // Viewport
     }
 
 
     /**
      * Pripravena metoda pro orezavani:
-     *  Pokud mam hranu, jejiz jeden vrchol neni videt = zahodim celou hranu.
-     *  X, Y, Z a porovnavani s W.
+     * Pokud mam hranu, jejiz jeden vrchol neni videt = zahodim celou hranu.
+     * X, Y, Z a porovnavani s W.
      *
      * @param p
      * @return boolean
      */
     private boolean clip(Point3D p) {
-//        TODO  dodelat orezani dle popisu v komentari nad metodou (viz. prednaska)
-        return false;
+        boolean clipResult = false;
+        if ((p.getX() < -p.getW()) || (p.getX() > p.getW())) {
+            clipResult = true;
+        } else if ((p.getY() < -p.getW()) || (p.getY() > p.getW())) {
+            clipResult = true;
+        } else if ((p.getZ() < 0) || (p.getZ() > p.getW())) {
+            clipResult = true;
+        }
+        return clipResult;
     }
 
     @Override
